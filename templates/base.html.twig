@@ -10,6 +10,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <style>
+            body {
+                background: linear-gradient(to bottom right, #b3d9ff, #ffffff) no-repeat !important;
+                background-size: cover !important;
+            }
             .form-error-icon {
                 background: red;
             }
@@ -22,10 +26,11 @@
         {% endblock %}
         <title>Prodify - APIRest</title>
     </head>
-    <body>
     <body style="background: linear-gradient(to bottom right, #b3d9ff, #ffffff) no-repeat; background-size: cover">
-        {% block body %}
+        <div class="container-fluid h-100">
+            {% block body %}
 
-        {% endblock %}
+            {% endblock %}
+        </div>
     </body>
 </html>

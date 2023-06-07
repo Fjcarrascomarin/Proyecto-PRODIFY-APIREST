@@ -3,104 +3,107 @@
 {% block title %}PRODIFY - APIRest{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2 bg-light">
-                <div class="sidebar">
-                    <ul class="nav flex-column">
-                        {% if rolUsuario == 'ROLE_ADMIN' %}
-                            <li class="nav-link" style="border-bottom: solid black 1px">
-                                <a class="nav-link btn btn-primary m-2" href="{{ path('usuarios_listado') }}">Lista usuarios</a>
-                            </li>
-                        {% endif %}
-                        <li class="nav-item " style="border-bottom: solid black 1px">
-                            <a class="nav-link btn btn-primary m-2" href="{{ path('crear_producto') }}">Añadir producto</a>
+    <div class="row">
+        <div class="col-2 bg-light">
+            <div class="sidebar">
+                <ul class="nav flex-column">
+                    <li>
+                        <h1 class="h3 mb-3 font-weight-normal" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;">Prodify</h1>
+                    </li>
+                    {% if rolUsuario == 'ROLE_ADMIN' %}
+                        <li class="nav-link" style="border-bottom: solid black 1px;">
+                            <a class="nav-link btn btn-primary m-2" style="text-align: left" href="{{ path('usuarios_listado') }}">
+                                Lista usuarios
+                            </a>
                         </li>
-                        <li class="nav-item" style="border-bottom: solid black 1px">
-                            <a class="nav-link btn btn-warning m-2" href="{{ path('editar_perfil') }}">Editar perfil</a>
-                        </li>
-                        <li class="nav-item" style="border-bottom: solid black 1px">
-                            <a class="nav-link btn btn-warning m-2" href="{{ path('cambiar_contrasena') }}">Cambiar contraseña</a>
-                        </li>
-                        <li class="nav-item" style="border-bottom: solid black 1px">
-                            <a class="nav-link btn btn-danger m-2" href="{{ path('app_logout') }}">Logout</a>
-                        </li>
-                    </ul>
+                    {% endif %}
+                    <li class="nav-item " style="border-bottom: solid black 1px;">
+                        <a class="nav-link btn btn-primary m-2" style="text-align: left" href="{{ path('crear_producto') }}">
+                            <i class="fa fa-plus"></i>
+                            Añadir producto
+                        </a>
+                    </li>
+                    <li class="nav-item" style="border-bottom: solid black 1px;">
+                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('editar_perfil') }}">Editar perfil</a>
+                    </li>
+                    <li class="nav-item" style="border-bottom: solid black 1px;">
+                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('cambiar_contrasena') }}">Cambiar contraseña</a>
+                    </li>
+                    <li class="nav-item" style="border-bottom: solid black 1px;">
+                        <a class="nav-link btn btn-danger m-2" style="text-align: left" href="{{ path('app_logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-10">
+            <header>
+                <h1 class="text-center mb-3" style="font-size: 32px;">Panel de administración de {{ nombreUsuario }}</h1>
+            </header>
+            <main>
+                <div class="form-group d-flex align-items-center mb-3">
+                    <input type="text" class="form-control flex-grow-1 mr-2" id="searchInput" placeholder="Buscar productos" oninput="filterProducts()">
+                    <select id="searchField" class="form-control text-center" style="margin-left: 5px">
+                        <option value="0">Nombre del Producto</option>
+                        <option value="2">Descripción</option>
+                        <option value="3">Código de Referencia</option>
+                        <option value="5">Precio €</option>
+                    </select>
                 </div>
-            </div>
-            <div class="col-10">
-                <header>
-                    <h1 class="text-center mb-3" style="font-size: 32px;">Panel de administración de {{ nombreUsuario }}</h1>
-                </header>
-                <main>
-                    <div class="form-group d-flex align-items-center mb-3">
-                        <input type="text" class="form-control flex-grow-1 mr-2" id="searchInput" placeholder="Buscar productos" oninput="filterProducts()">
-                        <select id="searchField" class="form-control text-center" style="margin-left: 5px">
-                            <option value="0">Nombre del Producto</option>
-                            <option value="2">Descripción</option>
-                            <option value="3">Código de Referencia</option>
-                            <option value="5">Precio €</option>
-                        </select>
-                    </div>
 
-                    <table class="table table-striped">
-                        <thead style="background: lightgray; border: 1px solid lightcyan;">
+                <table class="table table-striped">
+                    <thead style="background: lightgray; border: 1px solid lightcyan;">
+                    <tr>
+                        <th class="text-center" style="border: 1px solid lightcyan;">Nombre del Producto</th>
+                        {% if rolUsuario == 'ROLE_ADMIN' %}
+                            <th class="text-center" style="border: 1px solid lightcyan;">Nombre del Proveedor</th>
+                        {% endif %}
+                        <th class="text-center" style="border: 1px solid lightcyan;">Descripción</th>
+                        <th class="text-center" style="border: 1px solid lightcyan;">Código de Referencia</th>
+                        <th class="text-center" style="border: 1px solid lightcyan;">URL de la Imagen</th>
+                        <th class="text-center" style="border: 1px solid lightcyan;">Precio €</th>
+                        <th colspan="2" class="text-center" style="border: 1px solid lightcyan;">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                    {% set itemsPerPage = 10 %}
+                    {% set totalPages = productos|length // itemsPerPage + 1 %}
+                    {% set currentPage = app.request.query.get('page', 1) %}
+                    {% set startIndex = (currentPage - 1) * itemsPerPage %}
+                    {% set endIndex = currentPage * itemsPerPage - 1 %}
+
+                    {% for index, producto in productos|slice(startIndex, endIndex) %}
                         <tr>
-                            <th class="text-center" style="border: 1px solid lightcyan;">Nombre del Producto</th>
+                            <td>{{ producto.nombre }}</td>
                             {% if rolUsuario == 'ROLE_ADMIN' %}
-                                <th class="text-center" style="border: 1px solid lightcyan;">Nombre del Proveedor</th>
+                                <td class="text-center">{{ producto.proveedor }}</td>
                             {% endif %}
-                            <th class="text-center" style="border: 1px solid lightcyan;">Descripción</th>
-                            <th class="text-center" style="border: 1px solid lightcyan;">Código de Referencia</th>
-                            <th class="text-center" style="border: 1px solid lightcyan;">URL de la Imagen</th>
-                            <th class="text-center" style="border: 1px solid lightcyan;">Precio €</th>
-                            <th colspan="2" class="text-center" style="border: 1px solid lightcyan;">Opciones</th>
+                            <td title="{{  producto.descripcion }}">{{ producto.descripcion|truncate_text(30) }}</td>
+                            <td>{{ producto.cod_ref }}</td>
+                            <td><img class="img-thumbnail" src="{{ producto.img_producto }}" width="100px" height="100px" alt=""></td>
+                            <td>{{ producto.precio }}</td>
+                            <td colspan="2" class="options-cell">
+                                <a href="{{ path('editar_producto', {'producto': producto.id}) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="{{ path('borrar', {'id': producto.id}) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {% set itemsPerPage = 10 %}
-                        {% set totalPages = productos|length // itemsPerPage + 1 %}
-                        {% set currentPage = app.request.query.get('page', 1) %}
-                        {% set startIndex = (currentPage - 1) * itemsPerPage %}
-                        {% set endIndex = currentPage * itemsPerPage - 1 %}
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-                        {% for index, producto in productos|slice(startIndex, endIndex) %}
-                            <tr>
-                                <td>{{ producto.nombre }}</td>
-                                {% if rolUsuario == 'ROLE_ADMIN' %}
-                                    <td class="text-center">{{ producto.proveedor }}</td>
-                                {% endif %}
-                                <td>{{ producto.descripcion }}</td>
-                                <td>{{ producto.cod_ref }}</td>
-                                <td><img src="{{ producto.img_producto }}" width="100px" height="100px"></td>
-                                <td>{{ producto.precio }}</td>
-                                <td colspan="2" class="options-cell">
-                                    <a href="{{ path('editar_producto', {'producto': producto.id}) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="{{ path('borrar', {'id': producto.id}) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-5">
+                        {% for page in 1..totalPages %}
+                            <li class="page-item {% if page == currentPage %}active{% endif %}">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page})) }}">{{ page }}</a>
+                            </li>
                         {% endfor %}
-                        </tbody>
-                    </table>
-
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            {% for page in 1..totalPages %}
-                                <li class="page-item {% if page == currentPage %}active{% endif %}">
-                                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'page': page})) }}">{{ page }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </nav>
-                </main>
-            </div>
+                    </ul>
+                </nav>
+            </main>
         </div>
     </div>
 
     <style>
-        body{
-            background: white !important;
-        }
         .row {
             min-height: 100%;
         }
