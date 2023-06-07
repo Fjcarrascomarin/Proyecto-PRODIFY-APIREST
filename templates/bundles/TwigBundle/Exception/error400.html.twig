@@ -1,0 +1,14 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <body style="background: white;">
+    <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <div class="text-center">
+            <h1><i class="fas fa-exclamation-circle"></i> Solicitud incorrecta.</h1>
+
+            <a href="{{ path('productos_listado') }}" class="btn btn-primary">Volver</a>
+        </div>
+    </div>
+    </body>
+{% endblock %}
