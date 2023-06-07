@@ -11,26 +11,36 @@
                         <h1 class="h3 mb-3 font-weight-normal" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;">Prodify</h1>
                     </li>
                     {% if rolUsuario == 'ROLE_ADMIN' %}
-                        <li class="nav-link" style="border-bottom: solid black 1px;">
+                        <li class="nav-item" style="border-bottom: solid #888888 1px">
                             <a class="nav-link btn btn-primary m-2" style="text-align: left" href="{{ path('usuarios_listado') }}">
+                                <i class="fa fa-list"></i>
                                 Lista usuarios
                             </a>
                         </li>
                     {% endif %}
-                    <li class="nav-item " style="border-bottom: solid black 1px;">
+                    <li class="nav-item" style="border-bottom: solid #888888 1px">
                         <a class="nav-link btn btn-primary m-2" style="text-align: left" href="{{ path('crear_producto') }}">
                             <i class="fa fa-plus"></i>
                             Añadir producto
                         </a>
                     </li>
-                    <li class="nav-item" style="border-bottom: solid black 1px;">
-                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('editar_perfil') }}">Editar perfil</a>
+                    <li class="nav-item" style="border-bottom: solid #888888 1px">
+                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('editar_perfil') }}">
+                            <i class="fa fa-pencil-alt"></i>
+                            Editar perfil
+                        </a>
                     </li>
-                    <li class="nav-item" style="border-bottom: solid black 1px;">
-                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('cambiar_contrasena') }}">Cambiar contraseña</a>
+                    <li class="nav-item" style="border-bottom: solid #888888 1px">
+                        <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('cambiar_contrasena') }}">
+                            <i class="fas fa-lock"></i>
+                            Cambiar contraseña
+                        </a>
                     </li>
-                    <li class="nav-item" style="border-bottom: solid black 1px;">
-                        <a class="nav-link btn btn-danger m-2" style="text-align: left" href="{{ path('app_logout') }}">Logout</a>
+                    <li class="nav-item" style="border-bottom: solid #888888 1px">
+                        <a class="nav-link btn btn-danger m-2" style="text-align: left" href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -42,7 +52,7 @@
             <main>
                 <div class="form-group d-flex align-items-center mb-3">
                     <input type="text" class="form-control flex-grow-1 mr-2" id="searchInput" placeholder="Buscar productos" oninput="filterProducts()">
-                    <select id="searchField" class="form-control text-center" style="margin-left: 5px">
+                    <select id="searchField" class="form-control text-left" style="margin-left: 5px">
                         <option value="0">Nombre del Producto</option>
                         <option value="2">Descripción</option>
                         <option value="3">Código de Referencia</option>

@@ -10,21 +10,33 @@
         </div>
     {% endif %}
     {% if rolUsuario == 'ROLE_ADMIN'%}
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <div class="row">
                 <div class="col-2 bg-light">
                     <div class="sidebar">
                         <ul class="nav flex-column">
+                            <li>
+                                <h1 class="h3 mb-3 font-weight-normal" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;">Prodify</h1>
+                            </li>
                             {% if rolUsuario == 'ROLE_ADMIN' %}
-                                <li class="nav-link" style="border-bottom: solid black 1px">
-                                    <a class="nav-link btn btn-primary m-2" href="{{ path('productos_listado') }}">Lista productos</a>
+                                <li class="nav-item" style="border-bottom: solid #888888 1px">
+                                    <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('productos_listado') }}">
+                                        <i class="fa fa-list"></i>
+                                        Lista productos
+                                    </a>
                                 </li>
                             {% endif %}
-                            <li class="nav-item" style="border-bottom: solid black 1px">
-                                <a class="nav-link btn btn-warning m-2" href="{{ path('editar_perfil') }}">Editar perfil</a>
+                            <li class="nav-item" style="border-bottom: solid #888888 1px">
+                                <a class="nav-link btn btn-warning m-2" style="text-align: left" href="{{ path('editar_perfil') }}">
+                                    <i class="fa fa-pencil-alt"></i>
+                                    Editar perfil
+                                </a>
                             </li>
-                            <li class="nav-item" style="border-bottom: solid black 1px"">
-                                <a class="nav-link btn btn-danger m-2" href="{{ path('app_logout') }}">Logout</a>
+                            <li class="nav-item" style="border-bottom: solid #888888 1px">
+                                <a class="nav-link btn btn-danger m-2" style="text-align: left" href="{{ path('app_logout') }}">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -46,7 +58,7 @@
                                 <th class="text-center" style="border: 1px solid lightcyan;">Opciones</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="bg-white">
                             {% for usuario in usuarios %}
                                 <tr>
                                     <td>{{ usuario.nombre }}</td>
@@ -65,9 +77,6 @@
         </div>
 
         <style>
-            body{
-                background: white !important;
-            }
             .row {
                 min-height: 100%;
             }
@@ -76,10 +85,8 @@
                 height: 1000px !important;
             }
 
-            .sidebar-content {
-                position: fixed;
-                width: 100%;
-                padding-bottom: 20px;
+            .nav a:hover {
+                background-color: lightgray;
             }
             .nav-link:hover {
                 color: white;
