@@ -1,0 +1,161 @@
+{% extends "bootstrap_4_layout.html.twig" %}
+
+{% trans_default_domain 'app' %}
+
+{% block checkbox_widget %}
+    <label class="form-label fw-bolder text-dark fs-6 invisible" for="{{ id }}">R</label>
+    <label class="form-check form-check-custom form-check-solid form-check-inline mb-3" for="{{ id }}">
+        <input id="{{ id }}" class="form-check-input" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <span class="form-check-label fw-bold text-gray-700 fs-6">{{ label|trans|raw }}</span>
+    </label>
+{% endblock checkbox_widget %}
+
+{% block radio_widget %}
+    <div class="form-check form-check-custom form-check-solid mb-3">
+        <!--begin::Input-->
+        <input style="border: 1px solid #ced4da !important;" id="{{ id }}" type="radio" class="form-check-input me-3" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}>
+        <!--end::Input-->
+        <!--begin::Label-->
+        <label class="form-check-label" for="{{ id }}">
+            <div class="fw-bolder text-gray-800">{{ label|trans }}</div>
+            {#            <div class="text-gray-600">Best for business owners and company administrators</div>#}
+        </label>
+        <!--end::Label-->
+    </div>
+{% endblock radio_widget %}
+
+{% block form_widget_simple -%}
+    {%- if type is not defined or type != 'hidden' -%}
+        {%- set className = '' -%}
+        {%- if type|default('') == 'file' or type|default('') == 'range' -%}
+            {%- set className = ' form-control' -%}
+        {%- endif -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ className)|trim}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{% block form_label -%}
+    {% if label is not same as(false) -%}
+        {% set label_attr = form.vars.label_attr %}
+        {% if label_attr.class is defined  %}
+            {% set label_class = label_attr.class ~ ' form-label fw-bolder fs-6' %}
+            {% set label_attr = label_attr|merge({class: label_class|default('')|trim}) %}
+        {% else %}
+            {% set label_attr = label_attr|merge({class: "form-label fw-bolder fs-6"}) %}
+        {% endif %}
+
+        {%- if compound is defined and compound -%}
+            {%- set element = 'legend' -%}
+            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-form-label')|trim}) -%}
+        {%- else -%}
+            {%- set label_attr = label_attr|merge({for: id}) -%}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        {%- if translation_domain is same as(false) -%}
+            {%- if label_html is same as(false) -%}
+                {{- label -}}
+            {%- else -%}
+                {{- label|raw -}}
+            {%- endif -%}
+        {%- else -%}
+            {%- if label_html is same as(false) -%}
+                {{- label|trans(label_translation_parameters, translation_domain) -}}
+            {%- else -%}
+                {{- label|trans(label_translation_parameters, translation_domain)|raw -}}
+            {%- endif -%}
+        {%- endif -%}
+        </{{ element|default('label') }}>
+    {%- else -%}
+        {%- if errors|length > 0 -%}
+            <div id="{{ id }}_errors" class="mb-2">
+                {{- form_errors(form) -}}
+            </div>
+        {%- endif -%}
+    {%- endif -%}
+
+{%- endblock form_label %}
+
+{% block form_row -%}
+    {% set label_attr = form.vars.label_attr %}
+    {% if label_attr.class is defined  %}
+        {% set label_class = label_attr.class ~ ' form-label fw-bolder text-dark fs-6' %}
+        {% set label_attr = label_attr|merge({class: label_class|default('')|trim}) %}
+    {% else %}
+        {% set label_attr = label_attr|merge({class: "form-label fw-bolder text-dark fs-6"}) %}
+    {% endif %}
+    {% set label_attr = {label_attr: label_attr} %}
+
+    {% set widget_attr = form.vars.attr %}
+    {% set widget_class = '' %}
+    {% if widget_attr.class is defined  %}
+        {% set widget_class = widget_attr.class %}
+    {% endif %}
+
+    {# Añadimos la clase "form-select" si es de tipo select #}
+    {%- if form.vars.expanded is defined and form.vars.expanded == false -%}
+        {% set widget_class = widget_class ~ ' form-select' %}
+    {%- endif -%}
+
+    {% set widget_attr = widget_attr|merge({class: widget_class|default('')|trim}) %}
+
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = widget_attr|merge({'aria-describedby': id ~"_help"}) -%}
+    {%- endif -%}
+
+    {% set widget_attr = {attr: widget_attr} %}
+
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group mb-7')|trim})} %}{{ block('attributes') }}{% endwith %}>
+    {{- form_label(form, null, label_attr) -}}
+    {{- form_widget(form, widget_attr) -}}
+    {{- form_errors(form) -}}
+    {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{%- endblock form_row %}
+
+
+{% form_theme form _self %}
+{#
+{% block _plan_entrenamiento_pruebasFisicasEntrenamiento_entry_widget  %}
+    {% set pruebaFisica = form.vars.value %}
+    <div class="prueba-fisica-entrenamiento">
+        <button type="button" class="btn btn-sm btn-danger borrar-prueba-fisica float-end" title="{{ 'botones.eliminar' | trans }}">
+            <i class="fa fa-trash-alt"></i>
+        </button>
+
+        <div class="d-flex align-items-center">
+            <div class="form-label fw-bolder text-dark fs-6 w-100 m-0">
+                <div class="row">
+                    {% if form.pruebaFisica is defined %}
+                        <div class="col-10">
+                            {{ form_row(form.pruebaFisica) }}
+                        </div>
+                    {% endif %}
+
+                    {% if form.obligatoria is defined %}
+                        <div class="col-2">
+                            {{ form_row(form.obligatoria) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock _plan_entrenamiento_pruebasFisicasEntrenamiento_entry_widget %}
+#}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PRODIFY - APIREST{% endblock %}
+
+{% block body %}
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <div class="bg-white p-4">
+                <h1 class="h3 mb-3 font-weight-normal text-center" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Prodify</h1>
+
+                {#            {% if errors is not empty %}#}
+                {#                <div class="alert alert-danger" role="alert">#}
+                {#                    {% for error in errors %}#}
+                {#                        {{ error }}#}
+                {#                        <br>#}
+                {#                    {% endfor %}#}
+                {#                </div>#}
+                {#            {% endif %}#}
+
+                {{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+
+                <div class="form-group">
+                    {{ form_row(form.nombreUsuario) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_row(form.localidad) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_row(form.telefono) }}
+                </div>
+
+                {% if (path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) == '/registro') %}
+                    <div class="form-group">
+                        {{ form_row(form.password.first) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(form.password.second) }}
+                    </div>
+                {% endif %}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+
+                <div class="text-center mt-2">
+                    <a class="nav-link btn m-2 col-2" href="{{ path('productos_listado') }}">Regresar <- </a>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

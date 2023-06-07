@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PRODIFY - APIRest{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid d-flex align-items-center justify-content-center vh-100">
+        <div class="row">
+
+            <div class="col-12 col-md-10 col-lg-8 bg-light text-center p-4" style="width: 50vh; height: 50vh; max-width: 500px; max-height: 500px;">
+                <h1 class="h3 mb-3 font-weight-normal" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Prodify</h1>
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+
+                {{ form_row(form.currentPassword) }}
+
+                {{ form_row(form.password.first) }}
+
+                {{ form_row(form.password.second) }}
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 50px">Enviar</button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

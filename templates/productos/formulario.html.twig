@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Producto{% endblock %}
+{% block body %}
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <div class="bg-white p-4">
+                <h1 class="h3 mb-3 font-weight-normal text-center" style="background: linear-gradient(to bottom, #007bff, #b3d9ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Prodify</h1>
+                {{ form_start(form) }}
+                {{ form_row(form.nombre) }}
+                {{ form_row(form.descripcion) }}
+                {{ form_row(form.cod_ref) }}
+                {{ form_row(form.img_producto) }}
+                {{ form_row(form.precio) }}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

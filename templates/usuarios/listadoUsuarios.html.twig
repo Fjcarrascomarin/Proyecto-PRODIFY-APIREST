@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PRODIFY - APIRest{% endblock %}
+
+{% block body %}
+    {% if rolUsuario != 'ROLE_ADMIN'%}
+        <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+            <h1 class="text-center">NO TIENES PERMISO PARA ACCEDER A ESTOS DATOS</h1>
+            <a href="{{ path('productos_listado') }}" class="btn btn-primary mt-3">Volver <-</a>
+        </div>
+    {% endif %}
+    {% if rolUsuario == 'ROLE_ADMIN'%}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 bg-light">
+                    <div class="sidebar">
+                        <ul class="nav flex-column">
+                            {% if rolUsuario == 'ROLE_ADMIN' %}
+                                <li class="nav-link" style="border-bottom: solid black 1px">
+                                    <a class="nav-link btn btn-primary m-2" href="{{ path('productos_listado') }}">Lista productos</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item" style="border-bottom: solid black 1px">
+                                <a class="nav-link btn btn-warning m-2" href="{{ path('editar_perfil') }}">Editar perfil</a>
+                            </li>
+                            <li class="nav-item" style="border-bottom: solid black 1px"">
+                                <a class="nav-link btn btn-danger m-2" href="{{ path('app_logout') }}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <header>
+                        <h1 class="text-center mb-3">Panel de administración de {{ nombreUsuario }}</h1>
+                    </header>
+
+                    <main>
+                        <table class="table table-striped">
+                            <thead style="background: lightgray; border: 1px solid lightcyan;"">
+                            <tr>
+                                <th class="text-center " style="border: 1px solid lightcyan;">Nombre del usuario</th>
+                                <th class="text-center" style="border: 1px solid lightcyan;">Email</th>
+                                <th class="text-center" style="border: 1px solid lightcyan;">Roles</th>
+                                <th class="text-center" style="border: 1px solid lightcyan;">Telefono</th>
+                                <th class="text-center" style="border: 1px solid lightcyan;">Localidad</th>
+                                <th class="text-center" style="border: 1px solid lightcyan;">Opciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.nombre }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.roles }}</td>
+                                    <td>{{ usuario.telefono }}</td>
+                                    <td>{{ usuario.localidad }}</td>
+                                    <td><a href="{{ path('borrar_usuario', {'id': usuario.id}) }}" class="btn btn-danger fa fa-trash"></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            body{
+                background: white !important;
+            }
+            .row {
+                min-height: 100%;
+            }
+
+            .sidebar {
+                height: 1000px !important;
+            }
+
+            .sidebar-content {
+                position: fixed;
+                width: 100%;
+                padding-bottom: 20px;
+            }
+            .nav-link:hover {
+                color: white;
+            }
+
+            .table {
+                margin: 0 auto;
+                table-layout: fixed;
+            }
+
+            .table thead th,
+            .table tbody td {
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .table tbody img {
+                display: block;
+                margin: 0 auto;
+            }
+
+            .options-cell {
+                padding: 0;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
