@@ -25,7 +25,6 @@ use ApiPlatform\Metadata\ApiProperty;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 #[ApiResource(
-    shortName: 'Item',
     description: 'Clase producto y sus campos',
     operations: [
         new Get(
@@ -50,7 +49,6 @@ use ApiPlatform\Metadata\ApiProperty;
 )]
 #[ApiResource(
     uriTemplate: '/usuarios/{usuario_id}/productos',
-    shortName: 'Item',
     operations: [
         new GetCollection()
     ],
