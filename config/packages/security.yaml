@@ -36,6 +36,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     # El orden de definición es de la regla mas específica a la menos
     access_control:
+        - { path: ^/prodify, roles: PUBLIC_ACCESS }
         - { path: ^/prodify/items, roles: PUBLIC_ACCESS }
         - { path: ^/prodify/usuarios, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS  }
