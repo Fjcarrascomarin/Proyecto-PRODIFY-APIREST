@@ -131,31 +131,3 @@
 
 
 {% form_theme form _self %}
-{#
-{% block _plan_entrenamiento_pruebasFisicasEntrenamiento_entry_widget  %}
-    {% set pruebaFisica = form.vars.value %}
-    <div class="prueba-fisica-entrenamiento">
-        <button type="button" class="btn btn-sm btn-danger borrar-prueba-fisica float-end" title="{{ 'botones.eliminar' | trans }}">
-            <i class="fa fa-trash-alt"></i>
-        </button>
-
-        <div class="d-flex align-items-center">
-            <div class="form-label fw-bolder text-dark fs-6 w-100 m-0">
-                <div class="row">
-                    {% if form.pruebaFisica is defined %}
-                        <div class="col-10">
-                            {{ form_row(form.pruebaFisica) }}
-                        </div>
-                    {% endif %}
-
-                    {% if form.obligatoria is defined %}
-                        <div class="col-2">
-                            {{ form_row(form.obligatoria) }}
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock _plan_entrenamiento_pruebasFisicasEntrenamiento_entry_widget %}
-#}
