@@ -25,6 +25,7 @@ use ApiPlatform\Metadata\ApiProperty;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 #[ApiResource(
+    shortName: 'Item',
     description: 'Clase producto y sus campos',
     operations: [
         new Get(
