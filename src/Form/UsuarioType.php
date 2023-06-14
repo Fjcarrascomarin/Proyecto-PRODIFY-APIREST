@@ -28,8 +28,10 @@ class UsuarioType extends AbstractType
                'constraints' => [new NotBlank()]
            ))
            ->add('nombreUsuario',TextType::class)
-           ->add('localidad',TextType::class)
-           ->add('telefono',TextType::class);
+           ->add('localidad',TextType::class,
+                array('constraints' => [new NotBlank()]))
+           ->add('telefono',TextType::class,
+               array('constraints' => [new NotBlank()]));
     }
     public function configureOptions(OptionsResolver $resolver)
     {
